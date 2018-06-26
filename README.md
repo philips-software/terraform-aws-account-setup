@@ -12,17 +12,12 @@ All features can be enabled or disabled, default is enabled.
 
 ### Example usages
 ```
-module "efs" {
+module "account_setup" {
   source = "philips-software/account-setup/aws"
   version = "1.0.0"
 
   # Or via github
   # source = "github.com/philips-software/terraform-aws-account-setup?ref=1.0.0"
-
-  environment    = "${var.environment}"
-  subnet_count   = "3"
-  subnet_ids     = "${var.private_subnet_ids}"
-  vpc_id         = "${var.vpc_id}"
 
 }
 
