@@ -13,6 +13,11 @@ variable "enable_account_password_policy" {
   default     = true
 }
 
+variable "admin_group_name" {
+  description = "Name of the admin group."
+  default     = "admins"
+}
+
 variable "password_reuse_prevention" {
   description = "The number of previous passwords that users are prevented from reusing."
   default     = true
