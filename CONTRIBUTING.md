@@ -77,7 +77,7 @@ Before you submit your merge request consider the following guidelines:
     git push origin my-fix-branch
     ```
 
-In Github, send a pull request to original master branch: f.e. `terraform-aws-efs:master`.
+In Github, send a pull request to original master branch: f.e. `terraform-aws-account-setup:master`.
 If we suggest changes, then:
 
 * Make the required updates.
@@ -134,5 +134,5 @@ Use the badge to sign-up.
 [![Slack](https://philips-software-slackin.now.sh/badge.svg)](https://philips-software-slackin.now.sh)
 
 [contribute]: CONTRIBUTING.md
-[github]: https://github.com/philips-software/terraform-aws-efs/issues
+[github]: https://github.com/philips-software/terraform-aws-account-setup/issues
 [slack]: https://philips-software.slack.com/home
