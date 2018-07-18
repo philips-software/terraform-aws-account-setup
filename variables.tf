@@ -62,3 +62,13 @@ variable "hard_expiry" {
   description = "Whether users are prevented from setting a new password after their password has expired (i.e. require administrator reset)"
   default     = false
 }
+
+variable "enable_read_only" {
+  description = "Creates a group with read-only IAM policy assigned to it."
+  default     = true
+}
+
+variable "read_only_group_name" {
+  description = "Name for read-only group."
+  default     = "read-only"
+}
