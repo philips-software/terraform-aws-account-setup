@@ -65,7 +65,7 @@ variable "hard_expiry" {
 
 variable "enable_read_only" {
   description = "Creates a group with read-only IAM policy assigned to it."
-  default     = true
+  default     = false
 }
 
 variable "read_only_group_name" {
