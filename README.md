@@ -34,7 +34,7 @@ module "account_setup" {
 | enable_account_password_policy | Enable custom (strict) password policy.                                                                                     | string | `true`      | no       |
 | enable_admin_group             | Create an admin group.                                                                                                      | string | `true`      | no       |
 | enable_mfa                     | Enable to force MFA usages.                                                                                                 | string | `true`      | no       |
-| enable_read_only               | Creates a group with read-only IAM policy assigned to it                                                                    | string | `true`      | no       |
+| enable_read_only               | Creates a group with the pre-defined read-only IAM policy assigned to it                                                    | string | `true`      | no       |
 | hard_expiry                    | Whether users are prevented from setting a new password after their password has expired (i.e. require administrator reset) | string | `false`     | no       |
 | max_password_age               | The number of days that an user password is valid.                                                                          | string | `33`        | no       |
 | minimum_password_length        | Minimum length to require for user passwords.                                                                               | string | `32`        | no       |
