@@ -39,19 +39,14 @@ module "account_setup" {
 | admin_group_name | Name of the admin group. | string | `admins` | no |
 | allow_users_to_change_password | Whether to allow users to change their own password | string | `true` | no |
 | cloudtrail_bucket_region | The region where the cloudtrail bucket will be created or is located | string | - | yes |
-| cloudtrail_bucket_region | The region where the cloudtrail bucket will be created or is located | string | - | yes |
 | enable_account_password_policy | Enable custom (strict) password policy. | string | `true` | no |
 | enable_admin_group | Create an admin group. | string | `true` | no |
 | enable_cloudtrail | Create a default cloudtrail for the account. | string | `false` | no |
-| enable_cloudtrail | Create a default cloudtrail for the account. | string | `false` | no |
-| enable_log_file_validation | Specifies whether log file integrity validation is enabled. | string | `true` | no |
 | enable_log_file_validation | Specifies whether log file integrity validation is enabled. | string | `true` | no |
 | enable_mfa | Enable to force MFA usages. | string | `true` | no |
 | enable_read_only_group | Creates a group with read-only IAM policy assigned to it. | string | `false` | no |
 | hard_expiry | Whether users are prevented from setting a new password after their password has expired (i.e. require administrator reset) | string | `false` | no |
 | include_global_service_events | Specifies whether the trail is publishing events from global services such as IAM to the log files. | string | `true` | no |
-| include_global_service_events | Specifies whether the trail is publishing events from global services such as IAM to the log files. | string | `true` | no |
-| is_multi_region_trail | Specifies whether the trail is created in the current region or in all regions. | string | `true` | no |
 | is_multi_region_trail | Specifies whether the trail is created in the current region or in all regions. | string | `true` | no |
 | max_password_age | The number of days that an user password is valid. | string | `33` | no |
 | minimum_password_length | Minimum length to require for user passwords. | string | `32` | no |
@@ -59,11 +54,8 @@ module "account_setup" {
 | read_only_group_name | Name for read-only group. | string | `read-only` | no |
 | require_lowercase_characters | Whether to require lowercase characters for user passwords. | string | `true` | no |
 | require_numbers | Whether to require numbers for user passwords. | string | `true` | no |
-| require_symbols | Whether to require symbols for user passwords. | string | `true` | no |
 | require_uppercase_characters | Whether to require uppercase characters for user passwords. | string | `true` | no |
 | tags | Map of tags to apply on the resources | map | `<map>` | no |
-| tags | Map of tags to apply on the resources | map | `<map>` | no |
-| trail_name | Name of the cloud trail. Required if the cloudtrail is enabled. | string | `` | no |
 | trail_name | Name of the cloud trail. Required if the cloudtrail is enabled. | string | `` | no |
 
 ## Outputs
