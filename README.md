@@ -71,3 +71,4 @@ module "account_setup" {
 | Name | Description |
 |------|-------------|
 | mfa_policy_arn | MFA Policy arn. |
+| trail_arn | Cloud trail arn. |
