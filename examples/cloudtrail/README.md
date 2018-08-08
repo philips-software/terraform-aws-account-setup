@@ -1,7 +1,7 @@
 ## Cloudtrail
 Example shows the usages of the cloudtrail feature.
 
-- cloudtrail
+- cloudtrail enabled
 - all defaults enabled
 
 ## Prerequisites for running the example
