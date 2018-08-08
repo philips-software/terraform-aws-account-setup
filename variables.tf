@@ -62,3 +62,52 @@ variable "hard_expiry" {
   description = "Whether users are prevented from setting a new password after their password has expired (i.e. require administrator reset)"
   default     = false
 }
+
+variable "enable_read_only_group" {
+  description = "Creates a group with read-only IAM policy assigned to it."
+  default     = false
+}
+
+variable "read_only_group_name" {
+  description = "Name for read-only group."
+  default     = "read-only"
+}
+
+### CLOUDTRAIL
+
+variable "cloudtrail_bucket_region" {
+  type        = "string"
+  description = "The region where the cloudtrail bucket will be created or is located, required if cloudtrail is enabled"
+  default     = ""
+}
+
+variable "tags" {
+  type        = "map"
+  description = "Map of tags to apply on the resources"
+  default     = {}
+}
+
+variable "trail_name" {
+  description = "Name of the cloud trail. Required if the cloudtrail is enabled."
+  default     = ""
+}
+
+variable "include_global_service_events" {
+  description = "Specifies whether the trail is publishing events from global services such as IAM to the log files. "
+  default     = true
+}
+
+variable "enable_log_file_validation" {
+  description = "Specifies whether log file integrity validation is enabled."
+  default     = true
+}
+
+variable "is_multi_region_trail" {
+  description = "Specifies whether the trail is created in the current region or in all regions. "
+  default     = true
+}
+
+variable "enable_cloudtrail" {
+  description = "Create a default cloudtrail for the account."
+  default     = false
+}
