@@ -111,3 +111,14 @@ variable "enable_cloudtrail" {
   description = "Create a default cloudtrail for the account."
   default     = false
 }
+
+variable "aws_config_notification_emails" {
+  description = "A list of emails for config changes notifications"
+  default = []
+  type = "list"
+}
+
+variable "enable_aws_config" {
+  description = "Specifies if the AWS config should be enabled"
+  default = false
+}
