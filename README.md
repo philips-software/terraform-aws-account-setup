@@ -12,12 +12,12 @@ All features can be enabled or disabled, default is enabled.
 
 The following AWS Config rules will be enabled (AWS Config is disabled by default):
 
-- Require a specific tag on the resources[^1]
+- Require a specific tag on the resources<sup>1</sup>
 - Require root account MFA enabled
 - Cloud trail enabled
 - IAM password policy compliance
 
-[^1]: Terraform does not allow passing unset value similar to `!Ref "AWS::NoValue"`. Due to this limitation only a single tag `tag1Key` can be passed as a parameter to to this module. If you require additional key-value pairs in your AWS config REQUIRED_TAGS rule, the module must be extended manually.
+<sup>1</sup>Terraform does not allow passing unset value similar to `!Ref "AWS::NoValue"`. Due to this limitation only a single tag `tag1Key` can be passed as a parameter to to this module. If you require additional key-value pairs in your AWS config REQUIRED_TAGS rule, the module must be extended manually.
 
 ## Usage
 
