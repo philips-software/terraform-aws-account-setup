@@ -114,11 +114,16 @@ variable "enable_cloudtrail" {
 
 variable "aws_config_notification_emails" {
   description = "A list of emails for config changes notifications"
-  default = []
-  type = "list"
+  default     = []
+  type        = "list"
 }
 
 variable "enable_aws_config" {
   description = "Specifies if the AWS config should be enabled"
-  default = false
+  default     = false
+}
+
+variable "tag1Key" {
+  description = "Specifies value of the Key for Tag1"
+  default     = ""
 }
