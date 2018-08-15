@@ -39,8 +39,8 @@ module "account_setup" {
   # Creates read only group (optional)
   enable_read_only_group = true
 }
-
 ```
+
 ## Inputs
 
 | Name | Description | Type | Default | Required |
