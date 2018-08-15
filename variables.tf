@@ -112,14 +112,15 @@ variable "enable_cloudtrail" {
   default     = false
 }
 
+### AWS Config
 variable "aws_config_notification_emails" {
-  description = "A list of emails for config changes notifications"
+  description = "A list of email addresses for that will receive AWS Config changes notifications"
   default     = []
   type        = "list"
 }
 
 variable "enable_aws_config" {
-  description = "Specifies if the AWS config should be enabled"
+  description = "Specifies if the AWS Config should be enabled"
   default     = false
 }
 

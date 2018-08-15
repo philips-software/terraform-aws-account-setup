@@ -15,6 +15,5 @@ module "account_setup" {
   enable_admin_group             = false
   enable_mfa                     = false
   aws_config_notification_emails = ["test@example.com"]
-
-  # tag1Key = "Project"
+  tag1Key = "Project"
 }

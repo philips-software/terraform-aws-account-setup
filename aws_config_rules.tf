@@ -1,6 +1,6 @@
-resource "aws_config_config_rule" "require_project_tag_rule" {
+resource "aws_config_config_rule" "require_tag_rule" {
   count = "${var.enable_aws_config && var.tag1Key != "" ? 1 : 0 }"
-  name  = "require_project_tag"
+  name  = "require_tag"
 
   source {
     owner             = "AWS"

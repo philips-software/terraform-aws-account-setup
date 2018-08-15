@@ -10,6 +10,15 @@ This terraform modules configures the following in IAM:
 
 All features can be enabled or disabled, default is enabled.
 
+The following AWS Config rules will be enabled (AWS Config is disabled by default):
+
+- Require a specific tag on the resources[^1]
+- Require root account MFA enabled
+- Cloud trail enabled
+- IAM password policy compliance
+
+[^1]: Terraform does not allow passing unset value similar to `!Ref "AWS::NoValue"`. Due to this limitation only a single tag `tag1Key` can be passed as a parameter to to this module. If you require additional key-value pairs in your AWS config REQUIRED_TAGS rule, the module must be extended manually.
+
 ## Usage
 
 ### Example usages
@@ -38,9 +47,11 @@ module "account_setup" {
 |------|-------------|:----:|:-----:|:-----:|
 | admin_group_name | Name of the admin group. | string | `admins` | no |
 | allow_users_to_change_password | Whether to allow users to change their own password | string | `true` | no |
-| cloudtrail_bucket_region | The region where the cloudtrail bucket will be created or is located | string | - | yes |
+| aws_config_notification_emails | A list of email addresses for that will receive AWS Config changes notifications | list | `<list>` | no |
+| cloudtrail_bucket_region | The region where the cloudtrail bucket will be created or is located, required if cloudtrail is enabled | string | `` | no |
 | enable_account_password_policy | Enable custom (strict) password policy. | string | `true` | no |
 | enable_admin_group | Create an admin group. | string | `true` | no |
+| enable_aws_config | Specifies if the AWS Config should be enabled | string | `false` | no |
 | enable_cloudtrail | Create a default cloudtrail for the account. | string | `false` | no |
 | enable_log_file_validation | Specifies whether log file integrity validation is enabled. | string | `true` | no |
 | enable_mfa | Enable to force MFA usages. | string | `true` | no |
@@ -54,7 +65,9 @@ module "account_setup" {
 | read_only_group_name | Name for read-only group. | string | `read-only` | no |
 | require_lowercase_characters | Whether to require lowercase characters for user passwords. | string | `true` | no |
 | require_numbers | Whether to require numbers for user passwords. | string | `true` | no |
+| require_symbols | Whether to require symbols for user passwords. | string | `true` | no |
 | require_uppercase_characters | Whether to require uppercase characters for user passwords. | string | `true` | no |
+| tag1Key | Specifies value of the Key for Tag1 | string | `` | no |
 | tags | Map of tags to apply on the resources | map | `<map>` | no |
 | trail_name | Name of the cloud trail. Required if the cloudtrail is enabled. | string | `` | no |
 
