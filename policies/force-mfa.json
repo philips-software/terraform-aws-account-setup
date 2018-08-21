@@ -96,7 +96,7 @@
                 "iam:ListMFADevices",
                 "iam:GetAccountSummary",
                 "iam:ChangePassword",
-                "sts:GetSessionToken",
+                "sts:GetSessionToken"
             ],
             "Resource": "*",
             "Condition": {
