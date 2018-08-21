@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+## 1.1.2 - 2018-08-21
+- FIX: Typo add CI checks to avoid typo's
+
 ## 1.1.1 - 2018-08-21
 - FIX: Add permission so users without MFA setup can change their password.
 
@@ -15,6 +18,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## 1.0.0 - 2018-06-27
 https://github.com/philips-software/terraform-aws-account-setup/tags/1.0.0
 
-[Unreleased]: https://github.com/philips-software/terraform-aws-account-setup/compare/1.1.1...HEAD
+[Unreleased]: https://github.com/philips-software/terraform-aws-account-setup/compare/1.1.2...HEAD
+[1.1.2]: https://github.com/philips-software/terraform-aws-account-setup/compare/1.1.1...1.1.2
 [1.1.1]: https://github.com/philips-software/terraform-aws-account-setup/compare/1.1.0...1.1.1
 [1.1.0]: https://github.com/philips-software/terraform-aws-account-setup/compare/1.0.0...1.1.0
