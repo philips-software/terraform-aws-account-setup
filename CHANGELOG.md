@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+- Add permission so users without MFA setup can change their password.
 
 ## 1.1.0 - 2018-08-08
 ### Added
