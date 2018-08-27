@@ -41,7 +41,6 @@ module "account_setup" {
 }
 ```
 
-
 ## Inputs
 
 | Name | Description | Type | Default | Required |
