@@ -20,10 +20,9 @@ resource "aws_s3_bucket" "aws_config_configuration_bucket" {
   count  = "${var.enable_aws_config}"
   bucket = "${data.aws_caller_identity.current.account_id}-terraform-aws-config-bucket"
 
-  tags {
-    Project   = "shared"
-    Automated = "true"
-  }
+  tags = "${merge(map("Project","shared"),
+            map("ManagedBy","Terraform"),
+            var.tags)}"
 }
 
 resource "aws_sns_topic" "aws_config_updates_topic" {
@@ -39,25 +38,14 @@ resource "aws_config_delivery_channel" "aws_config_delivery_channel" {
   depends_on     = ["aws_s3_bucket.aws_config_configuration_bucket", "aws_sns_topic.aws_config_updates_topic"]
 }
 
-resource "aws_iam_role" "aws_config_iam_role" {
-  count = "${var.enable_aws_config}"
-  name  = "terraform-awsconfig-role"
-
-  assume_role_policy = <<POLICY
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Action": "sts:AssumeRole",
-      "Principal": {
-        "Service": "config.amazonaws.com"
-      },
-      "Effect": "Allow",
-      "Sid": ""
-    }
-  ]
+data "template_file" "aws_config_iam_assume_role_policy_document" {
+  template = "${file("${path.module}/policies/aws_config_assume_role_policy.tpl")}"
 }
-POLICY
+
+resource "aws_iam_role" "aws_config_iam_role" {
+  count              = "${var.enable_aws_config}"
+  name               = "terraform-awsconfig-role"
+  assume_role_policy = "${data.template_file.aws_config_iam_assume_role_policy_document.rendered}"
 }
 
 resource "aws_iam_role_policy_attachment" "aws_config_iam_policy_attachment" {
@@ -66,38 +54,20 @@ resource "aws_iam_role_policy_attachment" "aws_config_iam_policy_attachment" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSConfigRole"
 }
 
-resource "aws_iam_role_policy" "aws_config_iam_policy" {
-  count = "${var.enable_aws_config}"
-  name  = "terraform-awsconfig-policy"
-  role  = "${aws_iam_role.aws_config_iam_role.id}"
+data "template_file" "aws_config_iam_policy_document" {
+  template = "${file("${path.module}/policies/aws_config_policy.tpl")}"
 
-  policy = <<POLICY
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Action": "config:Put*",
-            "Effect": "Allow",
-            "Resource": "*"
-        },
-        {
-            "Action": [
-                "s3:*"
-            ],
-            "Effect": "Allow",
-            "Resource": [
-                "${aws_s3_bucket.aws_config_configuration_bucket.arn}",
-                "${aws_s3_bucket.aws_config_configuration_bucket.arn}/*"
-            ]
-        },
-        {
-            "Effect": "Allow",
-            "Action": "sns:*",
-            "Resource": "${aws_sns_topic.aws_config_updates_topic.arn}"
-        }
-    ]
+  vars {
+    sns_topic_arn = "${aws_sns_topic.aws_config_updates_topic.arn}"
+    s3_bucket_arn = "${aws_s3_bucket.aws_config_configuration_bucket.arn}"
+  }
 }
-  POLICY
+
+resource "aws_iam_role_policy" "aws_config_iam_policy" {
+  count  = "${var.enable_aws_config}"
+  name   = "terraform-awsconfig-policy"
+  role   = "${aws_iam_role.aws_config_iam_role.id}"
+  policy = "${data.template_file.aws_config_iam_policy_document.rendered}"
 }
 
 resource "null_resource" "sns_subscribe" {
