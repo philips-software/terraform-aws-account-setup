@@ -128,3 +128,23 @@ variable "tag1Key" {
   description = "Specifies value of the Key for Tag1"
   default     = ""
 }
+
+variable "enable_require_tag_rule" {
+  description = "Specifies if 'Require Tag' rule should be enabled"
+  default = false
+}
+
+variable "enable_require_root_account_MFA_enabled_rule" {
+  description = "Specifies if 'Require root account MFA enabled' rule should be enabled"
+  default = false
+}
+
+variable "enable_cloud_trail_enabled_rule" {
+  description = "Specifies if 'Cloud Trail enabled' rule should be enabled"
+  default = false
+}
+
+variable "enable_iam_password_policy_rule" {
+  description = "Specifies if 'IAM password policy' rule should be enabled"
+  default = false
+}

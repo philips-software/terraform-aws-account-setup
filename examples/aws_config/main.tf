@@ -16,4 +16,8 @@ module "account_setup" {
   enable_mfa                     = false
   aws_config_notification_emails = ["test@example.com"]
   tag1Key = "Project"
+  enable_require_tag_rule = true
+  enable_require_root_account_MFA_enabled_rule = true
+  enable_cloud_trail_enabled_rule = true
+  enable_iam_password_policy_rule = true
 }

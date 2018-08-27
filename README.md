@@ -10,7 +10,7 @@ This terraform modules configures the following in IAM:
 
 All features can be enabled or disabled, default is enabled.
 
-The following AWS Config rules will be enabled (AWS Config is disabled by default):
+The following AWS Config rules can be enabled (AWS Config is disabled by default, each rule can be enabled individually):
 
 - Require a specific tag on the resources<sup>1</sup>
 - Require root account MFA enabled
@@ -41,6 +41,7 @@ module "account_setup" {
 }
 ```
 
+
 ## Inputs
 
 | Name | Description | Type | Default | Required |
@@ -52,10 +53,14 @@ module "account_setup" {
 | enable_account_password_policy | Enable custom (strict) password policy. | string | `true` | no |
 | enable_admin_group | Create an admin group. | string | `true` | no |
 | enable_aws_config | Specifies if the AWS Config should be enabled | string | `false` | no |
+| enable_cloud_trail_enabled_rule | Specifies if 'Cloud Trail enabled' rule should be enabled | string | `false` | no |
 | enable_cloudtrail | Create a default cloudtrail for the account. | string | `false` | no |
+| enable_iam_password_policy_rule | Specifies if 'IAM password policy' rule should be enabled | string | `false` | no |
 | enable_log_file_validation | Specifies whether log file integrity validation is enabled. | string | `true` | no |
 | enable_mfa | Enable to force MFA usages. | string | `true` | no |
 | enable_read_only_group | Creates a group with read-only IAM policy assigned to it. | string | `false` | no |
+| enable_require_root_account_MFA_enabled_rule | Specifies if 'Require root account MFA enabled' rule should be enabled | string | `false` | no |
+| enable_require_tag_rule | Specifies if 'Require Tag' rule should be enabled | string | `false` | no |
 | hard_expiry | Whether users are prevented from setting a new password after their password has expired (i.e. require administrator reset) | string | `false` | no |
 | include_global_service_events | Specifies whether the trail is publishing events from global services such as IAM to the log files. | string | `true` | no |
 | is_multi_region_trail | Specifies whether the trail is created in the current region or in all regions. | string | `true` | no |
