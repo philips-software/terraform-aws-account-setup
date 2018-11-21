@@ -107,6 +107,12 @@ variable "is_multi_region_trail" {
   default     = true
 }
 
+variable "event_selector" {
+  type        = "list"
+  description = "Specifies an event selector for enabling data event logging, It needs to be a list of map values. See: https://www.terraform.io/docs/providers/aws/r/cloudtrail.html for details on this map variable"
+  default     = []
+}
+
 variable "enable_cloudtrail" {
   description = "Create a default cloudtrail for the account."
   default     = false

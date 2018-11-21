@@ -15,6 +15,8 @@ resource "aws_cloudtrail" "cloudtrail" {
   include_global_service_events = "${var.include_global_service_events}"
   enable_log_file_validation    = "${var.enable_log_file_validation}"
   is_multi_region_trail         = "${var.is_multi_region_trail}"
+  event_selector                = "${var.event_selector}"
+  
 
   tags = "${var.tags}"
 }

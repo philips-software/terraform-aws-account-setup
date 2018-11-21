@@ -60,6 +60,7 @@ module "account_setup" {
 | enable_rule_require_cloud_trail | Specifies if 'Cloud Trail enabled' rule should be enabled | string | `false` | no |
 | enable_rule_require_root_account_MFA | Specifies if 'Require root account MFA enabled' rule should be enabled | string | `false` | no |
 | enable_rule_require_tag | Specifies if 'Require Tag' rule should be enabled | string | `false` | no |
+| event_selector | Specifies an event selector for enabling data event logging, It needs to be a list of map values. See: https://www.terraform.io/docs/providers/aws/r/cloudtrail.html for details on this map variable | list | `<list>` | no |
 | hard_expiry | Whether users are prevented from setting a new password after their password has expired (i.e. require administrator reset) | string | `false` | no |
 | include_global_service_events | Specifies whether the trail is publishing events from global services such as IAM to the log files. | string | `true` | no |
 | is_multi_region_trail | Specifies whether the trail is created in the current region or in all regions. | string | `true` | no |
