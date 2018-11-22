@@ -1,5 +1,5 @@
-## Cloudtrail
-Example shows the usages of the cloudtrail feature.
+## Cloudtrail with data events
+Example shows the usages of the cloudtrail feature with added data events
 
 - cloudtrail enabled
 - all defaults enabled
