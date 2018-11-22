@@ -26,10 +26,10 @@ The following AWS Config rules can be enabled (AWS Config is disabled by default
 ```terraform
 module "account_setup" {
   source = "philips-software/account-setup/aws"
-  version = "1.0.0"
+  version = "1.2.0"
 
   # Or via github
-  # source = "github.com/philips-software/terraform-aws-account-setup?ref=1.0.0"
+  # source = "github.com/philips-software/terraform-aws-account-setup?ref=1.2.0"
 
   # Cloudtrail (optional)
   enable_cloudtrail        = true
