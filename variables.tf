@@ -107,7 +107,50 @@ variable "is_multi_region_trail" {
   default     = true
 }
 
+variable "event_selector" {
+  type        = "list"
+  description = "Specifies an event selector for enabling data event logging, It needs to be a list of map values. See: https://www.terraform.io/docs/providers/aws/r/cloudtrail.html for details on this map variable"
+  default     = []
+}
+
 variable "enable_cloudtrail" {
   description = "Create a default cloudtrail for the account."
+  default     = false
+}
+
+### AWS Config
+variable "aws_config_notification_emails" {
+  description = "A list of email addresses for that will receive AWS Config changes notifications"
+  default     = []
+  type        = "list"
+}
+
+variable "enable_aws_config" {
+  description = "Specifies if the AWS Config should be enabled"
+  default     = false
+}
+
+variable "tag1Key" {
+  description = "Specifies value of the Key for Tag1"
+  default     = ""
+}
+
+variable "enable_rule_require_tag" {
+  description = "Specifies if 'Require Tag' rule should be enabled"
+  default     = false
+}
+
+variable "enable_rule_require_root_account_MFA" {
+  description = "Specifies if 'Require root account MFA enabled' rule should be enabled"
+  default     = false
+}
+
+variable "enable_rule_require_cloud_trail" {
+  description = "Specifies if 'Cloud Trail enabled' rule should be enabled"
+  default     = false
+}
+
+variable "enable_rule_iam_password_policy" {
+  description = "Specifies if 'IAM password policy' rule should be enabled"
   default     = false
 }
