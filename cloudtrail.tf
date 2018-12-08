@@ -11,7 +11,7 @@ resource "aws_cloudtrail" "cloudtrail" {
   count = "${var.enable_cloudtrail ? 1 : 0}"
 
   name                          = "${var.trail_name}"
-  s3_bucket_name                = "${aws_s3_bucket.cloudtrail_bucket.id}"
+  s3_bucket_name                = "${var.cloudtrail_bucket != "" ? var.cloudtrail_bucket : local.bucket_name}"
   include_global_service_events = "${var.include_global_service_events}"
   enable_log_file_validation    = "${var.enable_log_file_validation}"
   is_multi_region_trail         = "${var.is_multi_region_trail}"
@@ -31,7 +31,7 @@ resource "aws_kms_key" "cloudtrail_bucket_key" {
 }
 
 resource "aws_s3_bucket" "cloudtrail_bucket" {
-  count = "${var.enable_cloudtrail ? 1 : 0}"
+  count = "${var.enable_cloudtrail && var.cloudtrail_bucket == "" ? 1 : 0}"
 
   bucket        = "${local.bucket_name}"
   force_destroy = true
