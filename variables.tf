@@ -81,6 +81,12 @@ variable "cloudtrail_bucket_region" {
   default     = ""
 }
 
+variable "cloudtrail_bucket" {
+  type        = "string"
+  description = "The name of the cloudtrail bucket"
+  default     = ""
+}
+
 variable "tags" {
   type        = "map"
   description = "Map of tags to apply on the resources"
