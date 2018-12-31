@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## 1.3.0 - 2018-12-31
+- Added: Cloudtrail with optional s3 bucket #10 by JoostSaanen
+
 ## 1.2.0 - 2018-11-22
 - Added event selector for cloudtrail, see examples/cloudtrail-with-data-events
 
