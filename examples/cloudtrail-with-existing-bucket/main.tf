@@ -10,7 +10,7 @@ provider "template" {
 module "account_setup" {
   source = "../../"
 
-  enable_cloudtrail        = true
-  cloudtrail_bucket        = "my-unique-bucket-name"
-  trail_name               = "my-account-trail"
+  enable_cloudtrail = true
+  cloudtrail_bucket = "my-unique-bucket-name"
+  trail_name        = "my-account-trail"
 }
