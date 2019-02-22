@@ -48,11 +48,14 @@ module "account_setup" {
 | admin_group_name | Name of the admin group. | string | `admins` | no |
 | allow_users_to_change_password | Whether to allow users to change their own password | string | `true` | no |
 | aws_config_notification_emails | A list of email addresses for that will receive AWS Config changes notifications | list | `<list>` | no |
+| cloudtrail_bucket | The name of the cloudtrail bucket | string | `` | no |
 | cloudtrail_bucket_region | The region where the cloudtrail bucket will be created or is located, required if cloudtrail is enabled | string | `` | no |
+| cloudwatch_readonly_user_name | The user name for the cloudwatch read only user | string | `cloudwatch_readonly` | no |
 | enable_account_password_policy | Enable custom (strict) password policy. | string | `true` | no |
 | enable_admin_group | Create an admin group. | string | `true` | no |
 | enable_aws_config | Specifies if the AWS Config should be enabled | string | `false` | no |
 | enable_cloudtrail | Create a default cloudtrail for the account. | string | `false` | no |
+| enable_cloudwatch_readonly_user | Create a user that can read cloudwatch metrics (e.g. for grafana) | string | `false` | no |
 | enable_log_file_validation | Specifies whether log file integrity validation is enabled. | string | `true` | no |
 | enable_mfa | Enable to force MFA usages. | string | `true` | no |
 | enable_read_only_group | Creates a group with read-only IAM policy assigned to it. | string | `false` | no |
@@ -80,5 +83,7 @@ module "account_setup" {
 
 | Name | Description |
 |------|-------------|
+| cloudwatch_readonly_user_access_key_id | Access key id for the Cloudwatch readonly user |
+| cloudwatch_readonly_user_secret_access_key | Secret access key for the Cloudwatch readonly user |
 | mfa_policy_arn | MFA Policy arn. |
 | trail_arn | Cloud trail arn. |
