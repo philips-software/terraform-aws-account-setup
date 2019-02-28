@@ -7,6 +7,7 @@ This terraform modules configures the following in IAM:
 - Creates a group with admin privileges, with MFA enable_admin_group
 - Creates a group with read-only policy (disabled by default)
 - Creates a global cloud trail (disabled by default)
+- Creates a user including access keys for monitoring purposes (disabled by default)
 
 All features can be enabled or disabled, default is enabled.
 
