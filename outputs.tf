@@ -8,12 +8,17 @@ output "trail_arn" {
   value       = "${element(concat(aws_cloudtrail.cloudtrail.*.arn, list("")), 0)}"
 }
 
-output "cloudwatch_readonly_user_access_key_id" {
-  description = "Access key id for the Cloudwatch readonly user"
-  value       = "${element(concat(aws_iam_access_key.cloudwatch_readonly_user_access_key.*.id, list("")), 0)}"
+output "monitor_readonly_user_arn" {
+  description = "ARN for the monitor readonly user"
+  value       = "${element(concat(aws_iam_user.monitor_readonly_user.*.arn, list("")), 0)}"
 }
 
-output "cloudwatch_readonly_user_secret_access_key" {
-  description = "Secret access key for the Cloudwatch readonly user"
-  value       = "${element(concat(aws_iam_access_key.cloudwatch_readonly_user_access_key.*.secret, list("")), 0)}"
+output "monitor_readonly_user_access_key_id" {
+  description = "Access key id for the monitor readonly user"
+  value       = "${element(concat(aws_iam_access_key.monitor_readonly_user_access_key.*.id, list("")), 0)}"
+}
+
+output "monitor_readonly_user_secret_access_key" {
+  description = "Secret access key for the monitor readonly user"
+  value       = "${element(concat(aws_iam_access_key.monitor_readonly_user_access_key.*.secret, list("")), 0)}"
 }

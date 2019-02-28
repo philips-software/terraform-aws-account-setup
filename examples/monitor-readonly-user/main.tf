@@ -10,6 +10,6 @@ provider "template" {
 module "account_setup" {
   source = "../../"
 
-  enable_cloudwatch_readonly_user = true
-  cloudwatch_readonly_user_name   = "example-cloudwatch-readonly"
+  enable_monitor_readonly_user = true
+  monitor_readonly_user_name   = "example-monitor-readonly"
 }

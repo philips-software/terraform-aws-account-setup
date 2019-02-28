@@ -124,14 +124,14 @@ variable "enable_cloudtrail" {
   default     = false
 }
 
-variable "enable_cloudwatch_readonly_user" {
-  description = "Create a user that can read cloudwatch metrics (e.g. for grafana)"
+variable "enable_monitor_readonly_user" {
+  description = "Create a user that can read monitor metrics (e.g. for grafana)"
   default     = false
 }
 
-variable "cloudwatch_readonly_user_name" {
-  description = "The user name for the cloudwatch read only user"
-  default     = "cloudwatch_readonly"
+variable "monitor_readonly_user_name" {
+  description = "The user name for the monitor read only user"
+  default     = "monitor_readonly"
 }
 
 ### AWS Config

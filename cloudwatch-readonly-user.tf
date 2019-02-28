@@ -1,4 +1,4 @@
-data "aws_iam_policy_document" "cloudwatch_readonly_user_policy_document" {
+data "aws_iam_policy_document" "monitor_readonly_user_policy_document" {
   statement {
     sid = "AllowReadingMetricsFromCloudWatch"
 
@@ -34,19 +34,19 @@ data "aws_iam_policy_document" "cloudwatch_readonly_user_policy_document" {
   }
 }
 
-resource "aws_iam_policy" "cloudwatch_readonly_user_policy" {
-  count       = "${var.enable_cloudwatch_readonly_user}"
-  name        = "terraform-cloudwatch-readonly-policy"
-  description = "Gives readonly access to cloudwatch and tags (e.g. for grafana)"
-  policy      = "${data.aws_iam_policy_document.cloudwatch_readonly_user_policy_document.json}"
+resource "aws_iam_policy" "monitor_readonly_user_policy" {
+  count       = "${var.enable_monitor_readonly_user}"
+  name        = "terraform-monitor-readonly-policy"
+  description = "Gives readonly access to monitor and tags (e.g. for grafana)"
+  policy      = "${data.aws_iam_policy_document.monitor_readonly_user_policy_document.json}"
 }
 
-resource "aws_iam_user" "cloudwatch_readonly_user" {
-  count = "${var.enable_cloudwatch_readonly_user}"
-  name  = "${var.cloudwatch_readonly_user_name}"
+resource "aws_iam_user" "monitor_readonly_user" {
+  count = "${var.enable_monitor_readonly_user}"
+  name  = "${var.monitor_readonly_user_name}"
 }
 
-resource "aws_iam_access_key" "cloudwatch_readonly_user_access_key" {
-  count = "${var.enable_cloudwatch_readonly_user}"
-  user  = "${aws_iam_user.cloudwatch_readonly_user.name}"
+resource "aws_iam_access_key" "monitor_readonly_user_access_key" {
+  count = "${var.enable_monitor_readonly_user}"
+  user  = "${aws_iam_user.monitor_readonly_user.name}"
 }
