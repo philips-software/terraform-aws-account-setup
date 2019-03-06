@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+- Added user for monitoring purposes. See examples/monitor-readonly-user
 
 ## 1.3.0 - 2018-12-31
 - Added: Cloudtrail with optional s3 bucket #10 by JoostSaanen
