@@ -124,6 +124,11 @@ variable "enable_cloudtrail" {
   default     = false
 }
 
+variable "enable_cloudwatch_logs" {
+  description = "Enable Cloudwatch Logs for Cloudtrail."
+  default     = false
+}
+
 ### AWS Config
 variable "aws_config_notification_emails" {
   description = "A list of email addresses for that will receive AWS Config changes notifications"
