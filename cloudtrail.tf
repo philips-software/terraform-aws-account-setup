@@ -27,7 +27,7 @@ resource "aws_cloudtrail" "cloudtrail" {
 #
 resource "aws_cloudwatch_log_group" "log_group" {
   count = "${var.enable_cloudwatch_logs}"
-  name = "CloudTrail/DefaultLogGroup"
+  name = "${var.cloudwatch_log_group_name}"
 }
 
 #
@@ -39,7 +39,7 @@ data "template_file" "cloudwatch_iam_assume_role_policy_document" {
 
 resource "aws_iam_role" "cloudwatch_iam_role" {
   count              = "${var.enable_cloudwatch_logs}"
-  name               = "terraform-cloudwatch-role"
+  name               = "${var.cloudwatch_iam_role_name}"
   assume_role_policy = "${data.template_file.cloudwatch_iam_assume_role_policy_document.rendered}"
 }
 
@@ -60,7 +60,7 @@ data "template_file" "cloudwatch_iam_policy_document" {
 
 resource "aws_iam_policy" "cloudwatch_iam_policy" {
   count  = "${var.enable_cloudwatch_logs}"
-  name   = "terraform-cloudwatch-policy"
+  name   = "${var.cloudwatch_iam_policy_name}"
   policy = "${data.template_file.cloudwatch_iam_policy_document.rendered}"
 }
 

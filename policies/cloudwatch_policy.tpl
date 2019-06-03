@@ -7,7 +7,7 @@
         "logs:CreateLogStream"
       ],
       "Resource": [
-        "${log_group_arn}"
+        "${log_group_arn}:*"
       ]
     },
     {
@@ -16,7 +16,7 @@
         "logs:PutLogEvents"
       ],
       "Resource": [
-        "${log_group_arn}"
+        "${log_group_arn}:*"
       ]
     }
   ]
