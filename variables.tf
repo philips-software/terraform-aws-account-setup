@@ -129,6 +129,21 @@ variable "enable_cloudwatch_logs" {
   default     = false
 }
 
+variable "cloudwatch_log_group_name" {
+  description = "The name of the cloudwatch log name"
+  default     = "CloudTrail/DefaultLogGroup"
+}
+
+variable "cloudwatch_iam_policy_name" {
+  description = "The name of the policy which is used for the cloudtrail cloudwatch role"
+  default = "terraform-cloudwatch-policy"
+}
+
+variable "cloudwatch_iam_role_name" {
+  description = "The name of the role which of the cloudtrail cloudwatch role"
+  default = "terraform-cloudwatch-role"
+}
+
 ### AWS Config
 variable "aws_config_notification_emails" {
   description = "A list of email addresses for that will receive AWS Config changes notifications"
