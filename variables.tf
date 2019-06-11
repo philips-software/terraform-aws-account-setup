@@ -124,6 +124,16 @@ variable "enable_cloudtrail" {
   default     = false
 }
 
+variable "enable_monitor_readonly_user" {
+  description = "Create a user that can read monitor metrics (e.g. for grafana)"
+  default     = false
+}
+
+variable "monitor_readonly_user_name" {
+  description = "The user name for the monitor read only user"
+  default     = "monitor_readonly"
+}
+
 ### AWS Config
 variable "aws_config_notification_emails" {
   description = "A list of email addresses for that will receive AWS Config changes notifications"

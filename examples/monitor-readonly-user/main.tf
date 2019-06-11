@@ -10,7 +10,6 @@ provider "template" {
 module "account_setup" {
   source = "../../"
 
-  enable_cloudtrail = true
-  cloudtrail_bucket = "my-unique-bucket-name"
-  trail_name        = "my-account-trail"
+  enable_monitor_readonly_user = true
+  monitor_readonly_user_name   = "example-monitor-readonly"
 }
