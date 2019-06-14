@@ -134,6 +134,11 @@ variable "monitor_readonly_user_name" {
   default     = "monitor_readonly"
 }
 
+variable "kms_key_id" {
+  description = "The arn of the CMK key which is used for encrypting cloudtrail logs"
+  default     = ""
+}
+
 ### AWS Config
 variable "aws_config_notification_emails" {
   description = "A list of email addresses for that will receive AWS Config changes notifications"
