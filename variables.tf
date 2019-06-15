@@ -144,6 +144,21 @@ variable "cloudwatch_iam_role_name" {
   default = "terraform-cloudwatch-role"
 }
 
+variable "enable_monitor_readonly_user" {
+  description = "Create a user that can read monitor metrics (e.g. for grafana)"
+  default     = false
+}
+
+variable "monitor_readonly_user_name" {
+  description = "The user name for the monitor read only user"
+  default     = "monitor_readonly"
+}
+
+variable "kms_key_id" {
+  description = "The arn of the CMK key which is used for encrypting cloudtrail logs"
+  default     = ""
+}
+
 ### AWS Config
 variable "aws_config_notification_emails" {
   description = "A list of email addresses for that will receive AWS Config changes notifications"
@@ -179,4 +194,35 @@ variable "enable_rule_require_cloud_trail" {
 variable "enable_rule_iam_password_policy" {
   description = "Specifies if 'IAM password policy' rule should be enabled"
   default     = false
+}
+
+### SSM Session Manager
+variable "enable_ssm_session_manager" {
+  description = "Specifies if the ssm session manager should be enabled"
+  default     = false
+}
+
+variable "s3_bucket_name" {
+  default     = ""
+  description = "(Optional) The name of bucket to store session logs. Specifying this enables writing session output to an Amazon S3 bucket."
+}
+
+variable "s3_key_prefix" {
+  default = ""
+  description = "(Optional) To write output to a sub-folder, enter a sub-folder name."
+}
+
+variable "s3_encryption_enabled" {
+  default = false
+  description = "(Optional) Encrypt log data."
+}
+
+variable "cloudwatch_log_group_name" {
+  default = ""
+  description = "(Optional) The name of the log group to upload session logs to. Specifying this enables sending session output to CloudWatch Logs."
+}
+
+variable "cloudwatch_encryption_enabled" {
+  default = false
+  description = "(Optional) Encrypt log data."
 }

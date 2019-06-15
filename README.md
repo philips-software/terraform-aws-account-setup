@@ -7,6 +7,7 @@ This terraform modules configures the following in IAM:
 - Creates a group with admin privileges, with MFA enable_admin_group
 - Creates a group with read-only policy (disabled by default)
 - Creates a global cloud trail (disabled by default)
+- Creates a user including access keys for monitoring purposes (disabled by default)
 
 All features can be enabled or disabled, default is enabled.
 
@@ -48,6 +49,7 @@ module "account_setup" {
 | admin_group_name | Name of the admin group. | string | `admins` | no |
 | allow_users_to_change_password | Whether to allow users to change their own password | string | `true` | no |
 | aws_config_notification_emails | A list of email addresses for that will receive AWS Config changes notifications | list | `<list>` | no |
+| cloudtrail_bucket | The name of the cloudtrail bucket | string | `` | no |
 | cloudtrail_bucket_region | The region where the cloudtrail bucket will be created or is located, required if cloudtrail is enabled | string | `` | no |
 | enable_account_password_policy | Enable custom (strict) password policy. | string | `true` | no |
 | enable_admin_group | Create an admin group. | string | `true` | no |
@@ -55,6 +57,7 @@ module "account_setup" {
 | enable_cloudtrail | Create a default cloudtrail for the account. | string | `false` | no |
 | enable_log_file_validation | Specifies whether log file integrity validation is enabled. | string | `true` | no |
 | enable_mfa | Enable to force MFA usages. | string | `true` | no |
+| enable_monitor_readonly_user | Create a user that can read monitor metrics (e.g. for grafana) | string | `false` | no |
 | enable_read_only_group | Creates a group with read-only IAM policy assigned to it. | string | `false` | no |
 | enable_rule_iam_password_policy | Specifies if 'IAM password policy' rule should be enabled | string | `false` | no |
 | enable_rule_require_cloud_trail | Specifies if 'Cloud Trail enabled' rule should be enabled | string | `false` | no |
@@ -66,6 +69,7 @@ module "account_setup" {
 | is_multi_region_trail | Specifies whether the trail is created in the current region or in all regions. | string | `true` | no |
 | max_password_age | The number of days that an user password is valid. | string | `33` | no |
 | minimum_password_length | Minimum length to require for user passwords. | string | `32` | no |
+| monitor_readonly_user_name | The user name for the monitor read only user | string | `monitor_readonly` | no |
 | password_reuse_prevention | The number of previous passwords that users are prevented from reusing. | string | `true` | no |
 | read_only_group_name | Name for read-only group. | string | `read-only` | no |
 | require_lowercase_characters | Whether to require lowercase characters for user passwords. | string | `true` | no |
@@ -81,4 +85,7 @@ module "account_setup" {
 | Name | Description |
 |------|-------------|
 | mfa_policy_arn | MFA Policy arn. |
+| monitor_readonly_user_access_key_id | Access key id for the monitor readonly user |
+| monitor_readonly_user_arn | ARN for the monitor readonly user |
+| monitor_readonly_user_secret_access_key | Secret access key for the monitor readonly user |
 | trail_arn | Cloud trail arn. |
