@@ -124,6 +124,26 @@ variable "enable_cloudtrail" {
   default     = false
 }
 
+variable "enable_cloudwatch_logs" {
+  description = "Enable Cloudwatch Logs for Cloudtrail."
+  default     = false
+}
+
+variable "cloudwatch_log_group_name" {
+  description = "The name of the cloudwatch log name"
+  default     = "CloudTrail/DefaultLogGroup"
+}
+
+variable "cloudwatch_iam_policy_name" {
+  description = "The name of the policy which is used for the cloudtrail cloudwatch role"
+  default = "terraform-cloudwatch-policy"
+}
+
+variable "cloudwatch_iam_role_name" {
+  description = "The name of the role which of the cloudtrail cloudwatch role"
+  default = "terraform-cloudwatch-role"
+}
+
 variable "enable_monitor_readonly_user" {
   description = "Create a user that can read monitor metrics (e.g. for grafana)"
   default     = false
