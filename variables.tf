@@ -217,11 +217,6 @@ variable "s3_encryption_enabled" {
   description = "(Optional) Encrypt log data."
 }
 
-variable "cloudwatch_log_group_name" {
-  default = ""
-  description = "(Optional) The name of the log group to upload session logs to. Specifying this enables sending session output to CloudWatch Logs."
-}
-
 variable "cloudwatch_encryption_enabled" {
   default = false
   description = "(Optional) Encrypt log data."
