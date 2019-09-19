@@ -1,5 +1,5 @@
 resource "aws_ssm_document" "session_manager_prefs" {
-  count           = var.enable_ssm_session_manager
+  count           = var.enable_ssm_session_manager ? 1 : 0
   name            = "SSM-SessionManagerRunShell"
   document_type   = "Session"
   document_format = "JSON"

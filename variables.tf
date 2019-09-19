@@ -19,8 +19,9 @@ variable "admin_group_name" {
 }
 
 variable "password_reuse_prevention" {
+  type        = number
   description = "The number of previous passwords that users are prevented from reusing."
-  default     = true
+  default     = 1
 }
 
 variable "minimum_password_length" {

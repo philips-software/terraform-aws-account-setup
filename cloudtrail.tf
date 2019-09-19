@@ -47,7 +47,7 @@ resource "aws_cloudtrail" "cloudtrail" {
 # CloudTrail Cloudwatch Log Group
 #
 resource "aws_cloudwatch_log_group" "log_group" {
-  count = var.enable_cloudwatch_logs
+  count = var.enable_cloudwatch_logs ? 1 : 0
   name  = var.cloudwatch_log_group_name
 }
 
@@ -59,19 +59,19 @@ data "template_file" "cloudwatch_iam_assume_role_policy_document" {
 }
 
 resource "aws_iam_role" "cloudwatch_iam_role" {
-  count              = var.enable_cloudwatch_logs
+  count              = var.enable_cloudwatch_logs ? 1 : 0
   name               = var.cloudwatch_iam_role_name
   assume_role_policy = data.template_file.cloudwatch_iam_assume_role_policy_document.rendered
 }
 
 resource "aws_iam_role_policy_attachment" "cloudwatch_iam_policy_attachment" {
-  count      = var.enable_cloudwatch_logs
+  count      = var.enable_cloudwatch_logs ? 1 : 0
   role       = aws_iam_role.cloudwatch_iam_role[0].name
   policy_arn = aws_iam_policy.cloudwatch_iam_policy[0].arn
 }
 
 data "template_file" "cloudwatch_iam_policy_document" {
-  count    = var.enable_cloudwatch_logs
+  count    = var.enable_cloudwatch_logs ? 1 : 0
   template = file("${path.module}/policies/cloudwatch_policy.tpl")
 
   vars = {
@@ -80,7 +80,7 @@ data "template_file" "cloudwatch_iam_policy_document" {
 }
 
 resource "aws_iam_policy" "cloudwatch_iam_policy" {
-  count  = var.enable_cloudwatch_logs
+  count  = var.enable_cloudwatch_logs ? 1 : 0
   name   = var.cloudwatch_iam_policy_name
   policy = data.template_file.cloudwatch_iam_policy_document[0].rendered
 }
