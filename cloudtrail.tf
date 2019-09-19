@@ -92,6 +92,7 @@ resource "aws_kms_key" "cloudtrail_bucket_key" {
   count = var.enable_cloudtrail ? 1 : 0
 
   description             = "This key is used to encrypt bucket objects"
+  enable_key_rotation     = true
   deletion_window_in_days = 10
 }
 
