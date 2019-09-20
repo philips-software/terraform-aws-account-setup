@@ -1,5 +1,5 @@
 resource "aws_config_config_rule" "require_tag_rule" {
-  count = "${var.enable_aws_config && var.tag1Key != "" && var.enable_rule_require_tag ? 1 : 0 }"
+  count = var.enable_aws_config && var.tag1Key != "" && var.enable_rule_require_tag ? 1 : 0
   name  = "require_tag"
 
   source {
@@ -12,7 +12,9 @@ resource "aws_config_config_rule" "require_tag_rule" {
     "tag1Key":"${var.tag1Key}"
 }
 
-  PARAMS
+  
+PARAMS
+
 
   scope {
     compliance_resource_types = [
@@ -50,13 +52,13 @@ resource "aws_config_config_rule" "require_tag_rule" {
   }
 
   depends_on = [
-    "aws_config_configuration_recorder.aws_config_recorder",
-    "aws_config_delivery_channel.aws_config_delivery_channel",
+    aws_config_configuration_recorder.aws_config_recorder,
+    aws_config_delivery_channel.aws_config_delivery_channel,
   ]
 }
 
 resource "aws_config_config_rule" "require_root_account_MFA_enabled_rule" {
-  count = "${var.enable_aws_config && var.enable_rule_require_root_account_MFA ? 1 : 0}"
+  count = var.enable_aws_config && var.enable_rule_require_root_account_MFA ? 1 : 0
   name  = "require_root_account_mfa_enabled"
 
   source {
@@ -65,13 +67,13 @@ resource "aws_config_config_rule" "require_root_account_MFA_enabled_rule" {
   }
 
   depends_on = [
-    "aws_config_configuration_recorder.aws_config_recorder",
-    "aws_config_delivery_channel.aws_config_delivery_channel",
+    aws_config_configuration_recorder.aws_config_recorder,
+    aws_config_delivery_channel.aws_config_delivery_channel,
   ]
 }
 
 resource "aws_config_config_rule" "cloud_trail_enabled_rule" {
-  count = "${var.enable_aws_config && var.enable_rule_require_cloud_trail ? 1 : 0}"
+  count = var.enable_aws_config && var.enable_rule_require_cloud_trail ? 1 : 0
   name  = "cloud_trail_enabled"
 
   source {
@@ -80,13 +82,13 @@ resource "aws_config_config_rule" "cloud_trail_enabled_rule" {
   }
 
   depends_on = [
-    "aws_config_configuration_recorder.aws_config_recorder",
-    "aws_config_delivery_channel.aws_config_delivery_channel",
+    aws_config_configuration_recorder.aws_config_recorder,
+    aws_config_delivery_channel.aws_config_delivery_channel,
   ]
 }
 
 resource "aws_config_config_rule" "iam_password_policy_rule" {
-  count = "${var.enable_aws_config && var.enable_rule_iam_password_policy ? 1 : 0}"
+  count = var.enable_aws_config && var.enable_rule_iam_password_policy ? 1 : 0
   name  = "iam_password_policy"
 
   input_parameters = <<POLICY
@@ -99,7 +101,9 @@ resource "aws_config_config_rule" "iam_password_policy_rule" {
     "PasswordReusePrevention": "${var.password_reuse_prevention}",
     "MaxPasswordAge": "${var.max_password_age}"
 }
-  POLICY
+  
+POLICY
+
 
   source {
     owner             = "AWS"
@@ -107,7 +111,8 @@ resource "aws_config_config_rule" "iam_password_policy_rule" {
   }
 
   depends_on = [
-    "aws_config_configuration_recorder.aws_config_recorder",
-    "aws_config_delivery_channel.aws_config_delivery_channel",
+    aws_config_configuration_recorder.aws_config_recorder,
+    aws_config_delivery_channel.aws_config_delivery_channel,
   ]
 }
+

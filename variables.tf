@@ -19,8 +19,9 @@ variable "admin_group_name" {
 }
 
 variable "password_reuse_prevention" {
+  type        = number
   description = "The number of previous passwords that users are prevented from reusing."
-  default     = true
+  default     = 1
 }
 
 variable "minimum_password_length" {
@@ -76,19 +77,19 @@ variable "read_only_group_name" {
 ### CLOUDTRAIL
 
 variable "cloudtrail_bucket_region" {
-  type        = "string"
+  type        = string
   description = "The region where the cloudtrail bucket will be created or is located, required if cloudtrail is enabled"
   default     = ""
 }
 
 variable "cloudtrail_bucket" {
-  type        = "string"
+  type        = string
   description = "The name of the cloudtrail bucket"
   default     = ""
 }
 
 variable "tags" {
-  type        = "map"
+  type        = map(string)
   description = "Map of tags to apply on the resources"
   default     = {}
 }
@@ -114,7 +115,7 @@ variable "is_multi_region_trail" {
 }
 
 variable "event_selector" {
-  type        = "list"
+  type        = list(string)
   description = "Specifies an event selector for enabling data event logging, It needs to be a list of map values. See: https://www.terraform.io/docs/providers/aws/r/cloudtrail.html for details on this map variable"
   default     = []
 }
@@ -136,12 +137,12 @@ variable "cloudwatch_log_group_name" {
 
 variable "cloudwatch_iam_policy_name" {
   description = "The name of the policy which is used for the cloudtrail cloudwatch role"
-  default = "terraform-cloudwatch-policy"
+  default     = "terraform-cloudwatch-policy"
 }
 
 variable "cloudwatch_iam_role_name" {
   description = "The name of the role which of the cloudtrail cloudwatch role"
-  default = "terraform-cloudwatch-role"
+  default     = "terraform-cloudwatch-role"
 }
 
 variable "enable_monitor_readonly_user" {
@@ -163,7 +164,7 @@ variable "kms_key_id" {
 variable "aws_config_notification_emails" {
   description = "A list of email addresses for that will receive AWS Config changes notifications"
   default     = []
-  type        = "list"
+  type        = list(string)
 }
 
 variable "enable_aws_config" {
@@ -208,16 +209,17 @@ variable "s3_bucket_name" {
 }
 
 variable "s3_key_prefix" {
-  default = ""
+  default     = ""
   description = "(Optional) To write output to a sub-folder, enter a sub-folder name."
 }
 
 variable "s3_encryption_enabled" {
-  default = false
+  default     = false
   description = "(Optional) Encrypt log data."
 }
 
 variable "cloudwatch_encryption_enabled" {
-  default = false
+  default     = false
   description = "(Optional) Encrypt log data."
 }
+
