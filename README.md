@@ -20,6 +20,11 @@ The following AWS Config rules can be enabled (AWS Config is disabled by default
 
 <sup>1</sup>Terraform does not allow passing unset value similar to `!Ref "AWS::NoValue"`. Due to this limitation only a single tag `tag1Key` can be passed as a parameter to to this module. If you require additional key-value pairs in your AWS config REQUIRED_TAGS rule, the module must be extended manually.
 
+## Terraform version
+
+- Terraform 0.12: Pin module to `~> 2+`, submit pull request to branch `develop`
+- Terraform 0.11: Pin module to `~> 1.x`, submit pull request to branch `terraform011`
+
 ## Usage
 
 ### Example usages
@@ -27,10 +32,10 @@ The following AWS Config rules can be enabled (AWS Config is disabled by default
 ```terraform
 module "account_setup" {
   source = "philips-software/account-setup/aws"
-  version = "1.2.0"
+  version = "2.0.0"
 
   # Or via github
-  # source = "github.com/philips-software/terraform-aws-account-setup?ref=1.2.0"
+  # source = "github.com/philips-software/terraform-aws-account-setup?ref=2.0.0"
 
   # Cloudtrail (optional)
   enable_cloudtrail        = true
