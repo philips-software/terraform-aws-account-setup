@@ -10,6 +10,8 @@ locals {
 resource "aws_cloudtrail" "cloudtrail" {
   count = var.enable_cloudtrail ? 1 : 0
 
+  depends_on = [aws_s3_bucket.cloudtrail_bucket]
+
   name                          = var.trail_name
   s3_bucket_name                = var.cloudtrail_bucket != "" ? var.cloudtrail_bucket : local.bucket_name
   include_global_service_events = var.include_global_service_events
