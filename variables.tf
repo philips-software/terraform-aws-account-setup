@@ -136,12 +136,12 @@ variable "cloudwatch_log_group_name" {
 
 variable "cloudwatch_iam_policy_name" {
   description = "The name of the policy which is used for the cloudtrail cloudwatch role"
-  default = "terraform-cloudwatch-policy"
+  default     = "terraform-cloudwatch-policy"
 }
 
 variable "cloudwatch_iam_role_name" {
   description = "The name of the role which of the cloudtrail cloudwatch role"
-  default = "terraform-cloudwatch-role"
+  default     = "terraform-cloudwatch-role"
 }
 
 variable "enable_monitor_readonly_user" {
@@ -208,21 +208,16 @@ variable "s3_bucket_name" {
 }
 
 variable "s3_key_prefix" {
-  default = ""
+  default     = ""
   description = "(Optional) To write output to a sub-folder, enter a sub-folder name."
 }
 
 variable "s3_encryption_enabled" {
-  default = false
+  default     = false
   description = "(Optional) Encrypt log data."
 }
 
-variable "cloudwatch_log_group_name" {
-  default = ""
-  description = "(Optional) The name of the log group to upload session logs to. Specifying this enables sending session output to CloudWatch Logs."
-}
-
 variable "cloudwatch_encryption_enabled" {
-  default = false
+  default     = false
   description = "(Optional) Encrypt log data."
 }

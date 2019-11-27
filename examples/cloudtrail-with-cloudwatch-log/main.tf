@@ -10,12 +10,13 @@ provider "template" {
 module "account_setup" {
   source = "../../"
 
-  enable_cloudtrail = true
+  enable_cloudtrail      = true
   enable_cloudwatch_logs = true
+  admin_group_name       = "admin-test"
 
-  cloudwatch_log_group_name = "myCloudwatchLogGroup"
+  cloudwatch_log_group_name  = "myCloudwatchLogGroup"
   cloudwatch_iam_policy_name = "myCloudwatchPolicyName"
-  cloudwatch_iam_role_name = "myCloudwatchRoleName"
+  cloudwatch_iam_role_name   = "myCloudwatchRoleName"
 
-  trail_name        = "my-account-trail"
+  trail_name = "my-account-trail"
 }

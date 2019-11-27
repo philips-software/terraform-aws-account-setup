@@ -28,7 +28,7 @@ resource "aws_cloudtrail" "cloudtrail" {
 #
 resource "aws_cloudwatch_log_group" "log_group" {
   count = "${var.enable_cloudwatch_logs}"
-  name = "${var.cloudwatch_log_group_name}"
+  name  = "${var.cloudwatch_log_group_name}"
 }
 
 #
