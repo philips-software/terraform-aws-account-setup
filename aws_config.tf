@@ -38,14 +38,10 @@ resource "aws_config_delivery_channel" "aws_config_delivery_channel" {
   depends_on     = [aws_s3_bucket.aws_config_configuration_bucket, aws_sns_topic.aws_config_updates_topic]
 }
 
-# data "template_file" "aws_config_iam_assume_role_policy_document" {
-#   template = "${file("${path.module}/policies/aws_config_assume_role_policy.tpl")}"
-# }
-
 resource "aws_iam_role" "aws_config_iam_role" {
   count = var.enable_aws_config ? 1 : 0
   name  = "terraform-awsconfig-role"
-  # assume_role_policy = data.template_file.aws_config_iam_assume_role_policy_document.rendered
+
   assume_role_policy = templatefile("${path.module}/policies/aws_config_assume_role_policy.tpl", {})
 }
 
@@ -55,21 +51,11 @@ resource "aws_iam_role_policy_attachment" "aws_config_iam_policy_attachment" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSConfigRole"
 }
 
-# data "template_file" "aws_config_iam_policy_document" {
-#   template = "${file("${path.module}/policies/aws_config_policy.tpl")}"
-#   count    = var.enable_aws_config
-
-#   vars {
-#     sns_topic_arn = aws_sns_topic.aws_config_updates_topic.arn
-#     s3_bucket_arn = aws_s3_bucket.aws_config_configuration_bucket.arn
-#   }
-# }
-
 resource "aws_iam_role_policy" "aws_config_iam_policy" {
   count = var.enable_aws_config ? 1 : 0
   name  = "terraform-awsconfig-policy"
   role  = aws_iam_role.aws_config_iam_role[0].id
-  # policy = data.template_file.aws_config_iam_policy_document.rendered
+
   policy = templatefile("${path.module}/policies/aws_config_policy.tpl", {
     sns_topic_arn = aws_sns_topic.aws_config_updates_topic[0].arn
     s3_bucket_arn = aws_s3_bucket.aws_config_configuration_bucket[0].arn
