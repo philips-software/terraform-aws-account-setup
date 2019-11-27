@@ -1,5 +1,5 @@
 resource "aws_config_config_rule" "require_tag_rule" {
-  count = "${var.enable_aws_config && var.tag1Key != "" && var.enable_rule_require_tag ? 1 : 0 }"
+  count = "${var.enable_aws_config && var.tag1Key != "" && var.enable_rule_require_tag ? 1 : 0}"
   name  = "require_tag"
 
   source {
