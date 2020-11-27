@@ -12,6 +12,5 @@ module "account_setup" {
 
   # Cloudtrail (optional)
   enable_cloudtrail        = true
-  cloudtrail_bucket_region = "eu-west-1"
   trail_name               = "my-account-trail"
 }

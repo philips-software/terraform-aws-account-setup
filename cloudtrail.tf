@@ -52,7 +52,6 @@ resource "aws_s3_bucket" "cloudtrail_bucket" {
 
   bucket        = local.bucket_name
   force_destroy = true
-  region        = var.cloudtrail_bucket_region
 
   tags = var.tags
 

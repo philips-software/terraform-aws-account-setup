@@ -75,12 +75,6 @@ variable "read_only_group_name" {
 
 ### CLOUDTRAIL
 
-variable "cloudtrail_bucket_region" {
-  type        = string
-  description = "The region where the cloudtrail bucket will be created or is located, required if cloudtrail is enabled"
-  default     = ""
-}
-
 variable "cloudtrail_bucket" {
   type        = string
   description = "The name of the cloudtrail bucket"
