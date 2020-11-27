@@ -39,7 +39,6 @@ module "account_setup" {
 
   # Cloudtrail (optional)
   enable_cloudtrail        = true
-  cloudtrail_bucket_region = "eu-west-1"
   trail_name               = "my-account-trail"
 
   # Creates read only group (optional)
@@ -55,7 +54,6 @@ module "account_setup" {
 | allow_users_to_change_password | Whether to allow users to change their own password | string | `true` | no |
 | aws_config_notification_emails | A list of email addresses for that will receive AWS Config changes notifications | list | `<list>` | no |
 | cloudtrail_bucket | The name of the cloudtrail bucket | string | `` | no |
-| cloudtrail_bucket_region | The region where the cloudtrail bucket will be created or is located, required if cloudtrail is enabled | string | `` | no |
 | enable_account_password_policy | Enable custom (strict) password policy. | string | `true` | no |
 | enable_admin_group | Create an admin group. | string | `true` | no |
 | enable_aws_config | Specifies if the AWS Config should be enabled | string | `false` | no |
