@@ -103,46 +103,55 @@ resource "aws_s3_bucket" "cloudtrail_bucket" {
   force_destroy = true
 
   tags = var.tags
+}
 
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        kms_master_key_id = aws_kms_key.cloudtrail_bucket_key[0].arn
-        sse_algorithm     = "aws:kms"
-      }
+resource "aws_s3_bucket_server_side_encryption_configuration" "cloudtrail_bucket" {
+  count  = var.enable_cloudtrail && var.cloudtrail_bucket == "" ? 1 : 0
+  bucket = one(aws_s3_bucket.cloudtrail_bucket).bucket
+
+  rule {
+    apply_server_side_encryption_by_default {
+      kms_master_key_id = aws_kms_key.cloudtrail_bucket_key[0].arn
+      sse_algorithm     = "aws:kms"
     }
   }
-
-  policy = <<POLICY
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Sid": "AWSCloudTrailAclCheck",
-            "Effect": "Allow",
-            "Principal": {
-              "Service": "cloudtrail.amazonaws.com"
-            },
-            "Action": "s3:GetBucketAcl",
-            "Resource": "arn:aws:s3:::${local.bucket_name}"
-        },
-        {
-            "Sid": "AWSCloudTrailWrite",
-            "Effect": "Allow",
-            "Principal": {
-              "Service": "cloudtrail.amazonaws.com"
-            },
-            "Action": "s3:PutObject",
-            "Resource": "arn:aws:s3:::${local.bucket_name}/*",
-            "Condition": {
-                "StringEquals": {
-                    "s3:x-amz-acl": "bucket-owner-full-control"
-                }
-            }
-        }
-    ]
 }
-POLICY
 
+data "aws_iam_policy_document" "cloudtrail_bucket" {
+  statement {
+    sid = "AWSCloudTrailAclCheck"
+
+    principals {
+      type        = "Service"
+      identifiers = ["cloudtrail.amazonaws.com"]
+    }
+
+    actions   = ["s3:GetBucketAcl"]
+    resources = ["arn:aws:s3:::${local.bucket_name}"]
+  }
+
+  statement {
+    sid = "AWSCloudTrailWrite"
+
+    principals {
+      type        = "Service"
+      identifiers = ["cloudtrail.amazonaws.com"]
+    }
+
+    actions   = ["s3:PutObject"]
+    resources = ["arn:aws:s3:::${local.bucket_name}/*"]
+
+    condition {
+      test     = "StringEquals"
+      variable = "s3:x-amz-acl"
+      values   = ["bucket-owner-full-control"]
+    }
+  }
+}
+
+resource "aws_s3_bucket_policy" "cloudtrail_bucket" {
+  count  = var.enable_cloudtrail && var.cloudtrail_bucket == "" ? 1 : 0
+  bucket = one(aws_s3_bucket.cloudtrail_bucket).bucket
+  policy = data.aws_iam_policy_document.cloudtrail_bucket.json
 }
 
