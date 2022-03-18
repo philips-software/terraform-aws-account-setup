@@ -54,14 +54,21 @@ resource "aws_cloudwatch_log_group" "log_group" {
 #
 # CloudTrail Cloudwatch IAM Role
 #
-data "template_file" "cloudwatch_iam_assume_role_policy_document" {
-  template = file("${path.module}/policies/cloudwatch_assume_role_policy.tpl")
+data "aws_iam_policy_document" "cloudwatch_assume" {
+  statement {
+    principals {
+      type        = "Service"
+      identifiers = ["cloudtrial.amazonaws.com"]
+    }
+
+    actions = ["sts:AssumeRole"]
+  }
 }
 
 resource "aws_iam_role" "cloudwatch_iam_role" {
   count              = var.enable_cloudwatch_logs ? 1 : 0
   name               = var.cloudwatch_iam_role_name
-  assume_role_policy = data.template_file.cloudwatch_iam_assume_role_policy_document.rendered
+  assume_role_policy = data.aws_iam_policy_document.cloudwatch_assume.json
 }
 
 resource "aws_iam_role_policy_attachment" "cloudwatch_iam_policy_attachment" {
@@ -70,19 +77,19 @@ resource "aws_iam_role_policy_attachment" "cloudwatch_iam_policy_attachment" {
   policy_arn = aws_iam_policy.cloudwatch_iam_policy[0].arn
 }
 
-data "template_file" "cloudwatch_iam_policy_document" {
-  count    = var.enable_cloudwatch_logs ? 1 : 0
-  template = file("${path.module}/policies/cloudwatch_policy.tpl")
+data "aws_iam_policy_document" "cloudwatch" {
+  count = var.enable_cloudwatch_logs ? 1 : 0
 
-  vars = {
-    log_group_arn = aws_cloudwatch_log_group.log_group[0].arn
+  statement {
+    actions   = ["logs:CreateLogStream", "logs:PutLogEvents"]
+    resources = ["${one(aws_cloudwatch_log_group.log_group).arn}:*"]
   }
 }
 
 resource "aws_iam_policy" "cloudwatch_iam_policy" {
   count  = var.enable_cloudwatch_logs ? 1 : 0
   name   = var.cloudwatch_iam_policy_name
-  policy = data.template_file.cloudwatch_iam_policy_document[0].rendered
+  policy = one(data.aws_iam_policy_document.cloudwatch).rendered
 }
 
 #
@@ -103,46 +110,55 @@ resource "aws_s3_bucket" "cloudtrail_bucket" {
   force_destroy = true
 
   tags = var.tags
+}
 
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        kms_master_key_id = aws_kms_key.cloudtrail_bucket_key[0].arn
-        sse_algorithm     = "aws:kms"
-      }
+resource "aws_s3_bucket_server_side_encryption_configuration" "cloudtrail_bucket" {
+  count  = var.enable_cloudtrail && var.cloudtrail_bucket == "" ? 1 : 0
+  bucket = one(aws_s3_bucket.cloudtrail_bucket).bucket
+
+  rule {
+    apply_server_side_encryption_by_default {
+      kms_master_key_id = aws_kms_key.cloudtrail_bucket_key[0].arn
+      sse_algorithm     = "aws:kms"
     }
   }
-
-  policy = <<POLICY
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Sid": "AWSCloudTrailAclCheck",
-            "Effect": "Allow",
-            "Principal": {
-              "Service": "cloudtrail.amazonaws.com"
-            },
-            "Action": "s3:GetBucketAcl",
-            "Resource": "arn:aws:s3:::${local.bucket_name}"
-        },
-        {
-            "Sid": "AWSCloudTrailWrite",
-            "Effect": "Allow",
-            "Principal": {
-              "Service": "cloudtrail.amazonaws.com"
-            },
-            "Action": "s3:PutObject",
-            "Resource": "arn:aws:s3:::${local.bucket_name}/*",
-            "Condition": {
-                "StringEquals": {
-                    "s3:x-amz-acl": "bucket-owner-full-control"
-                }
-            }
-        }
-    ]
 }
-POLICY
 
+data "aws_iam_policy_document" "cloudtrail_bucket" {
+  statement {
+    sid = "AWSCloudTrailAclCheck"
+
+    principals {
+      type        = "Service"
+      identifiers = ["cloudtrail.amazonaws.com"]
+    }
+
+    actions   = ["s3:GetBucketAcl"]
+    resources = ["arn:aws:s3:::${local.bucket_name}"]
+  }
+
+  statement {
+    sid = "AWSCloudTrailWrite"
+
+    principals {
+      type        = "Service"
+      identifiers = ["cloudtrail.amazonaws.com"]
+    }
+
+    actions   = ["s3:PutObject"]
+    resources = ["arn:aws:s3:::${local.bucket_name}/*"]
+
+    condition {
+      test     = "StringEquals"
+      variable = "s3:x-amz-acl"
+      values   = ["bucket-owner-full-control"]
+    }
+  }
+}
+
+resource "aws_s3_bucket_policy" "cloudtrail_bucket" {
+  count  = var.enable_cloudtrail && var.cloudtrail_bucket == "" ? 1 : 0
+  bucket = one(aws_s3_bucket.cloudtrail_bucket).bucket
+  policy = data.aws_iam_policy_document.cloudtrail_bucket.json
 }
 
