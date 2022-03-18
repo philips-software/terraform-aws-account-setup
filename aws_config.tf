@@ -47,14 +47,21 @@ resource "aws_config_delivery_channel" "aws_config_delivery_channel" {
   ]
 }
 
-data "template_file" "aws_config_iam_assume_role_policy_document" {
-  template = file("${path.module}/policies/aws_config_assume_role_policy.tpl")
+data "aws_iam_policy_document" "aws_config_assume" {
+  statement {
+    principals {
+      type        = "Service"
+      identifiers = ["config.amazonaws.com"]
+    }
+
+    actions = ["sts:AssumeRole"]
+  }
 }
 
 resource "aws_iam_role" "aws_config_iam_role" {
   count              = var.enable_aws_config ? 1 : 0
   name               = "terraform-awsconfig-role"
-  assume_role_policy = data.template_file.aws_config_iam_assume_role_policy_document.rendered
+  assume_role_policy = data.aws_iam_policy_document.aws_config_assume.json
 }
 
 resource "aws_iam_role_policy_attachment" "aws_config_iam_policy_attachment" {
@@ -63,13 +70,26 @@ resource "aws_iam_role_policy_attachment" "aws_config_iam_policy_attachment" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSConfigRole"
 }
 
-data "template_file" "aws_config_iam_policy_document" {
-  template = file("${path.module}/policies/aws_config_policy.tpl")
-  count    = var.enable_aws_config ? 1 : 0
+data "aws_iam_policy_document" "aws_config" {
+  count = var.enable_aws_config ? 1 : 0
 
-  vars = {
-    sns_topic_arn = aws_sns_topic.aws_config_updates_topic[0].arn
-    s3_bucket_arn = aws_s3_bucket.aws_config_configuration_bucket[0].arn
+  statement {
+    actions   = ["config:Put*"]
+    resources = ["*"]
+  }
+
+  statement {
+    actions   = ["sns:*"]
+    resources = [one(aws_sns_topic.aws_config_updates_topic).arn]
+  }
+
+  statement {
+    actions = ["s3:*"]
+
+    resources = [
+      one(aws_s3_bucket.aws_config_configuration_bucket).arn,
+      "${one(aws_s3_bucket.aws_config_configuration_bucket).arn}/*"
+    ]
   }
 }
 
@@ -77,7 +97,7 @@ resource "aws_iam_role_policy" "aws_config_iam_policy" {
   count  = var.enable_aws_config ? 1 : 0
   name   = "terraform-awsconfig-policy"
   role   = aws_iam_role.aws_config_iam_role[0].id
-  policy = data.template_file.aws_config_iam_policy_document[0].rendered
+  policy = one(data.aws_iam_policy_document.aws_config).json
 }
 
 resource "null_resource" "sns_subscribe" {
@@ -93,4 +113,3 @@ resource "null_resource" "sns_subscribe" {
     command = "aws sns subscribe --topic-arn ${aws_sns_topic.aws_config_updates_topic[0].arn} --protocol email --notification-endpoint ${element(var.aws_config_notification_emails, count.index)}"
   }
 }
-

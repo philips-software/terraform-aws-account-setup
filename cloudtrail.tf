@@ -54,14 +54,21 @@ resource "aws_cloudwatch_log_group" "log_group" {
 #
 # CloudTrail Cloudwatch IAM Role
 #
-data "template_file" "cloudwatch_iam_assume_role_policy_document" {
-  template = file("${path.module}/policies/cloudwatch_assume_role_policy.tpl")
+data "aws_iam_policy_document" "cloudwatch_assume" {
+  statement {
+    principals {
+      type        = "Service"
+      identifiers = ["cloudtrial.amazonaws.com"]
+    }
+
+    actions = ["sts:AssumeRole"]
+  }
 }
 
 resource "aws_iam_role" "cloudwatch_iam_role" {
   count              = var.enable_cloudwatch_logs ? 1 : 0
   name               = var.cloudwatch_iam_role_name
-  assume_role_policy = data.template_file.cloudwatch_iam_assume_role_policy_document.rendered
+  assume_role_policy = data.aws_iam_policy_document.cloudwatch_assume.json
 }
 
 resource "aws_iam_role_policy_attachment" "cloudwatch_iam_policy_attachment" {
@@ -70,19 +77,19 @@ resource "aws_iam_role_policy_attachment" "cloudwatch_iam_policy_attachment" {
   policy_arn = aws_iam_policy.cloudwatch_iam_policy[0].arn
 }
 
-data "template_file" "cloudwatch_iam_policy_document" {
-  count    = var.enable_cloudwatch_logs ? 1 : 0
-  template = file("${path.module}/policies/cloudwatch_policy.tpl")
+data "aws_iam_policy_document" "cloudwatch" {
+  count = var.enable_cloudwatch_logs ? 1 : 0
 
-  vars = {
-    log_group_arn = aws_cloudwatch_log_group.log_group[0].arn
+  statement {
+    actions   = ["logs:CreateLogStream", "logs:PutLogEvents"]
+    resources = ["${one(aws_cloudwatch_log_group.log_group).arn}:*"]
   }
 }
 
 resource "aws_iam_policy" "cloudwatch_iam_policy" {
   count  = var.enable_cloudwatch_logs ? 1 : 0
   name   = var.cloudwatch_iam_policy_name
-  policy = data.template_file.cloudwatch_iam_policy_document[0].rendered
+  policy = one(data.aws_iam_policy_document.cloudwatch).rendered
 }
 
 #
