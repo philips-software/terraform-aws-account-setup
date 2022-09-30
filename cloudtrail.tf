@@ -58,7 +58,7 @@ data "aws_iam_policy_document" "cloudwatch_assume" {
   statement {
     principals {
       type        = "Service"
-      identifiers = ["cloudtrial.amazonaws.com"]
+      identifiers = ["cloudtrail.amazonaws.com"]
     }
 
     actions = ["sts:AssumeRole"]
