@@ -80,15 +80,15 @@ data "aws_iam_policy_document" "aws_config" {
 
   statement {
     actions   = ["sns:*"]
-    resources = [one(aws_sns_topic.aws_config_updates_topic).arn]
+    resources = [aws_sns_topic.aws_config_updates_topic[0].arn]
   }
 
   statement {
     actions = ["s3:*"]
 
     resources = [
-      one(aws_s3_bucket.aws_config_configuration_bucket).arn,
-      "${one(aws_s3_bucket.aws_config_configuration_bucket).arn}/*"
+      aws_s3_bucket.aws_config_configuration_bucket[0].arn,
+      "${aws_s3_bucket.aws_config_configuration_bucket[0].arn}/*"
     ]
   }
 }
@@ -97,7 +97,7 @@ resource "aws_iam_role_policy" "aws_config_iam_policy" {
   count  = var.enable_aws_config ? 1 : 0
   name   = "terraform-awsconfig-policy"
   role   = aws_iam_role.aws_config_iam_role[0].id
-  policy = one(data.aws_iam_policy_document.aws_config).json
+  policy = data.aws_iam_policy_document.aws_config[0].json
 }
 
 resource "null_resource" "sns_subscribe" {
