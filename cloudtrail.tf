@@ -14,7 +14,7 @@ resource "aws_cloudtrail" "cloudtrail" {
   name                          = var.trail_name
   s3_bucket_name                = var.cloudtrail_bucket != "" ? var.cloudtrail_bucket : local.bucket_name
   cloud_watch_logs_role_arn     = join("", aws_iam_role.cloudwatch_iam_role.*.arn)
-  cloud_watch_logs_group_arn    = length(aws_cloudwatch_log_group.log_group) == 1 ? "${one(aws_cloudwatch_log_group.log_group).arn}:*" : null
+  cloud_watch_logs_group_arn    = length(aws_cloudwatch_log_group.log_group) == 1 ? "${aws_cloudwatch_log_group.log_group[0].arn}:*" : null
   include_global_service_events = var.include_global_service_events
   enable_log_file_validation    = var.enable_log_file_validation
   is_multi_region_trail         = var.is_multi_region_trail
@@ -82,7 +82,7 @@ data "aws_iam_policy_document" "cloudwatch" {
 
   statement {
     actions   = ["logs:CreateLogStream", "logs:PutLogEvents"]
-    resources = ["${one(aws_cloudwatch_log_group.log_group).arn}:*"]
+    resources = ["${aws_cloudwatch_log_group.log_group[0].arn}:*"]
   }
 }
 
@@ -114,7 +114,7 @@ resource "aws_s3_bucket" "cloudtrail_bucket" {
 
 resource "aws_s3_bucket_server_side_encryption_configuration" "cloudtrail_bucket" {
   count  = var.enable_cloudtrail && var.cloudtrail_bucket == "" ? 1 : 0
-  bucket = one(aws_s3_bucket.cloudtrail_bucket).bucket
+  bucket = aws_s3_bucket.cloudtrail_bucket[0].bucket
 
   rule {
     apply_server_side_encryption_by_default {
@@ -158,6 +158,6 @@ data "aws_iam_policy_document" "cloudtrail_bucket" {
 
 resource "aws_s3_bucket_policy" "cloudtrail_bucket" {
   count  = var.enable_cloudtrail && var.cloudtrail_bucket == "" ? 1 : 0
-  bucket = one(aws_s3_bucket.cloudtrail_bucket).bucket
+  bucket = aws_s3_bucket.cloudtrail_bucket[0].bucket
   policy = data.aws_iam_policy_document.cloudtrail_bucket.json
 }
