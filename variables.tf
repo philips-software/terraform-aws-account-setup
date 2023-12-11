@@ -223,3 +223,27 @@ variable "cloudwatch_encryption_enabled" {
   description = "(Optional) Encrypt log data."
 }
 
+variable "s3_bucket_state_file_creation" {
+  type = bool
+  default = false
+  description = "Whether to create S3 bucket in the AWS Account to store terraform state file"
+}
+
+variable "s3_bucket_state_file_name" {
+  type = string
+  default = ""
+  description = "The S3 bucket name which store the terraform state file"
+}
+
+variable "dynamodb_tables_creation" {
+  type = bool
+  default = false
+  description = "Whether to create dynamodb tables for terraform state file"
+}
+
+variable "dynamodb_tables_name" {
+  type = string
+  default = ""
+  description = "The dynamodb tables name"
+}
+
